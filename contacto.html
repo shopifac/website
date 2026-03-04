@@ -7,7 +7,21 @@
   <meta name="description" content="Contactá al equipo de Shopifac. Soporte técnico, consultas comerciales y más." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://shopifac.com/contacto" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <meta name="theme-color" content="#080D13" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <meta name="theme-color" content="#080D13" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
@@ -279,13 +293,25 @@
       mensaje: document.getElementById('mensaje').value.trim()
     };
 
-    // TODO: Replace this with your actual form endpoint (Formspree, EmailJS, or backend API)
-    // Example with Formspree: fetch('https://formspree.io/f/YOUR_FORM_ID', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) })
-    // For now, simulate a successful submission after 1.2s
-    setTimeout(() => {
-      document.getElementById('formContainer').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
-    }, 1200);
+    // Formspree endpoint — reemplazá YOUR_FORM_ID con tu ID de Formspree
+    fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      if (res.ok) {
+        document.getElementById('formContainer').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+      } else {
+        throw new Error('Error al enviar');
+      }
+    })
+    .catch(() => {
+      document.querySelector('.btn-submit').disabled = false;
+      document.getElementById('btn-text').textContent = 'Enviar mensaje →';
+      alert('Hubo un error al enviar el mensaje. Por favor intentá de nuevo o escribinos a contacto@shopifac.com');
+    });
   }
 
   // Clear error on input
