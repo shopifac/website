@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopifac — Conector Shopify con Facturante | Facturación automática</title>
+  <meta name="description" content="Conectá tu tienda Shopify con Facturante y generá facturas electrónicas en segundos, sin intervención manual. 7 días gratis, luego $35 USD/mes." />
+  <meta name="keywords" content="conector Shopify Facturante, facturación automática Shopify Argentina, conectar Shopify con Facturante, app facturación Shopify, factura electrónica Shopify, Shopifac" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shopifac.com/" />
+  <meta property="og:title" content="Shopifac — Conector Shopify con Facturante" />
+  <meta property="og:description" content="Conectá tu tienda Shopify con Facturante y generá facturas electrónicas automáticamente. 7 días gratis." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shopifac.com/" />
+  <meta property="og:image" content="https://shopifac.com/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shopifac — Conector Shopify con Facturante" />
+  <meta name="twitter:description" content="Conectá tu tienda Shopify con Facturante y generá facturas electrónicas automáticamente. 7 días gratis." />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Shopifac","applicationCategory":"BusinessApplication","operatingSystem":"Shopify","description":"Conector que integra Shopify con Facturante para generar facturas electrónicas automáticamente en Facturante.","offers":{"@type":"Offer","price":"35","priceCurrency":"USD","description":"7 días de prueba gratis, luego $35 USD/mes"},"url":"https://shopifac.com","provider":{"@type":"Organization","name":"Shopifac"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --dark: #080D13;
+      --dark2: #0F1620;
+      --dark3: #151D2A;
+      --green: #00C896;
+      --cyan: #00E5D4;
+      --green-dim: rgba(0,200,150,.12);
+      --cyan-dim: rgba(0,229,212,.08);
+      --light-bg: #F5F7FA;
+      --white: #FFFFFF;
+      --text: #111827;
+      --text-muted: #6B7280;
+      --border: #E4E7EC;
+      --border-dark: rgba(255,255,255,.07);
+      --radius: 14px;
+      --radius-lg: 22px;
+      --display: 'Outfit', sans-serif;
+      --body: 'Plus Jakarta Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--body); color: var(--text); background: var(--white); overflow-x: hidden; line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 26px; border-radius: 10px; font-family: var(--body); font-weight: 600; font-size: 15px; cursor: pointer; border: none; transition: all .22s cubic-bezier(.4,0,.2,1); }
+    .btn-glow { background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%); color: #080D13; box-shadow: 0 0 0 0 rgba(0,200,150,.4); }
+    .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,200,150,.45), 0 0 0 0 rgba(0,200,150,.0); }
+    .btn-ghost { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(8px); }
+    .btn-ghost:hover { background: rgba(255,255,255,.1); border-color: rgba(0,229,212,.4); color: var(--cyan); }
+    .btn-outline { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
+    .btn-outline:hover { background: var(--green); color: #080D13; }
+
+    /* ── UTILS ── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+    .tag { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+    .tag-green { background: rgba(0,200,150,.1); color: var(--green); border: 1px solid rgba(0,200,150,.25); }
+    .eyebrow { font-family: var(--body); font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; display: block; }
+    .section-h { font-family: var(--display); font-size: clamp(28px, 3.8vw, 44px); font-weight: 800; line-height: 1.12; color: var(--text); }
+    .section-h.light { color: var(--white); }
+    .section-sub { font-size: 17px; color: var(--text-muted); line-height: 1.7; margin-top: 14px; }
+    .section-sub.light { color: rgba(255,255,255,.55); }
+    .grad-text { background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.on { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+
+    /* ══ NAVBAR ══ */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; padding: 22px 0; transition: all .3s; }
+    .nav.stuck { background: rgba(8,13,19,.92); backdrop-filter: blur(18px); padding: 14px 0; border-bottom: 1px solid var(--border-dark); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-logo img { width: 34px; height: 34px; object-fit: contain; }
+    .nav-logo-name { font-family: var(--display); font-size: 19px; font-weight: 800; color: var(--white); letter-spacing: -.3px; }
+    .nav-logo-name em { font-style: normal; color: var(--cyan); }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.65); transition: color .2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .lang-pill { display: flex; background: rgba(255,255,255,.07); border-radius: 8px; padding: 3px; }
+    .lang-btn { padding: 5px 11px; border-radius: 6px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); cursor: pointer; border: none; background: transparent; transition: all .2s; }
+    .lang-btn.on { background: var(--green); color: #080D13; }
+    .nav-cta { padding: 10px 20px; font-size: 14px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: all .3s; }
+
+    /* mobile menu */
+    .mob-menu { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 998; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+    .mob-menu.open { display: flex; }
+    .mob-menu a { font-family: var(--display); font-size: 26px; font-weight: 700; color: rgba(255,255,255,.8); }
+    .mob-menu .btn { width: 260px; }
+    .mob-close { position: absolute; top: 24px; right: 28px; font-size: 28px; color: rgba(255,255,255,.5); cursor: pointer; background: none; border: none; }
+
+    /* ══ HERO ══ */
+    .hero { background: var(--dark); min-height: 100svh; display: flex; align-items: center; padding: 130px 0 90px; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; pointer-events: none; }
+    .hero-orb1 { position: absolute; top: -180px; right: -120px; width: 620px; height: 620px; background: radial-gradient(circle, rgba(0,229,212,.13) 0%, transparent 68%); border-radius: 50%; }
+    .hero-orb2 { position: absolute; bottom: -80px; left: -100px; width: 480px; height: 480px; background: radial-gradient(circle, rgba(0,200,150,.1) 0%, transparent 68%); border-radius: 50%; }
+    .hero-grid-line { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%); }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,200,150,.08); border: 1px solid rgba(0,200,150,.28); border-radius: 100px; padding: 7px 16px; margin-bottom: 26px; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2.2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,200,150,.5)} 50%{opacity:.5;box-shadow:0 0 0 5px rgba(0,200,150,0)} }
+    .hero-badge span { font-size: 11.5px; font-weight: 700; color: var(--cyan); letter-spacing: .07em; text-transform: uppercase; }
+    .hero h1 { font-family: var(--display); font-size: clamp(38px, 5.2vw, 62px); font-weight: 800; color: var(--white); line-height: 1.08; letter-spacing: -1.5px; margin-bottom: 22px; }
+    .hero-sub { font-size: 17.5px; color: rgba(255,255,255,.58); line-height: 1.72; margin-bottom: 38px; max-width: 460px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 44px; }
+    .hero-trust { display: flex; flex-wrap: wrap; gap: 22px; }
+    .trust-i { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,.42); }
+    .trust-i svg { color: var(--green); }
+
+    /* flow card */
+    .flow-card { background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius-lg); padding: 36px 32px; width: 100%; backdrop-filter: blur(4px); }
+    .flow-label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.3); text-align: center; margin-bottom: 28px; }
+    .flow-row { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); padding: 14px 18px; transition: all .25s; margin-bottom: 8px; }
+    .flow-row:hover { border-color: rgba(0,200,150,.28); background: rgba(0,200,150,.04); }
+    .flow-ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+    .ico-s { background: rgba(150,191,71,.14); }
+    .ico-f { background: rgba(0,200,150,.14); }
+    .ico-fa { background: rgba(0,229,212,.14); }
+    .flow-info { flex: 1; }
+    .flow-name { font-size: 13.5px; font-weight: 700; color: var(--white); }
+    .flow-desc { font-size: 11.5px; color: rgba(255,255,255,.38); margin-top: 1px; }
+    .flow-dot { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--green); white-space: nowrap; }
+    .dot-xs { width: 5px; height: 5px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .flow-arr { text-align: center; font-size: 16px; color: rgba(0,200,150,.45); margin: 0 0 8px; }
+    .invoice-mini { margin-top: 16px; background: rgba(255,255,255,.025); border: 1px solid rgba(0,200,150,.18); border-radius: var(--radius); padding: 14px 18px; display: flex; flex-direction: column; gap: 7px; }
+    .inv-row { display: flex; justify-content: space-between; align-items: center; }
+    .inv-row + .inv-row { padding-top: 7px; border-top: 1px solid rgba(255,255,255,.05); }
+    .inv-lbl { font-size: 11px; color: rgba(255,255,255,.35); }
+    .inv-val { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.75); }
+    .inv-val.g { color: var(--green); }
+    .inv-badge { font-size: 10.5px; font-weight: 700; background: rgba(0,200,150,.15); color: var(--green); padding: 2px 9px; border-radius: 5px; }
+
+    /* ══ PROBLEM ══ */
+    .problem { padding: 110px 0; background: var(--light-bg); }
+    .prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+    .prob-card { border-radius: var(--radius-lg); padding: 38px; }
+    .prob-card.bad { background: #FFF3F3; border: 1px solid #FECACA; }
+    .prob-card.good { background: linear-gradient(145deg, rgba(0,200,150,.07) 0%, rgba(0,229,212,.05) 100%); border: 1px solid rgba(0,200,150,.22); }
+    .prob-head { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .prob-emoji { font-size: 22px; }
+    .prob-title { font-family: var(--display); font-size: 17px; font-weight: 700; }
+    .bad .prob-title { color: #B91C1C; }
+    .good .prob-title { color: var(--green); }
+    .prob-list { display: flex; flex-direction: column; gap: 13px; }
+    .prob-item { display: flex; gap: 11px; align-items: flex-start; }
+    .prob-ic { font-size: 15px; margin-top: 2px; flex-shrink: 0; }
+    .prob-txt { font-size: 15px; color: var(--text); line-height: 1.55; }
+
+    /* ══ HOW ══ */
+    .how { padding: 110px 0; background: var(--white); }
+    .how-wrap { display: grid; grid-template-columns: repeat(3,1fr); gap: 36px; margin-top: 60px; position: relative; }
+    .how-wrap::after { content:''; position:absolute; top: 40px; left: calc(50%/3 + 24px); right: calc(50%/3 + 24px); height: 2px; background: linear-gradient(90deg, var(--green), var(--cyan)); z-index:0; }
+    .step { text-align: center; position: relative; z-index: 1; padding: 0 12px; }
+    .step-num { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--cyan)); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-family: var(--display); font-size: 26px; font-weight: 800; color: #080D13; box-shadow: 0 8px 30px rgba(0,200,150,.3); }
+    .step-title { font-family: var(--display); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .step-desc { font-size: 14.5px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ══ FEATURES ══ */
+    .features { padding: 110px 0; background: var(--light-bg); }
+    .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 56px; }
+    .feat-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px 30px; border: 1px solid var(--border); transition: all .28s; }
+    .feat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,.08); border-color: rgba(0,200,150,.22); }
+    .feat-ico { width: 50px; height: 50px; border-radius: 14px; background: linear-gradient(135deg, rgba(0,200,150,.1), rgba(0,229,212,.1)); display: flex; align-items: center; justify-content: center; font-size: 21px; margin-bottom: 18px; }
+    .feat-title { font-family: var(--display); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 9px; }
+    .feat-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ══ PRICING ══ */
+    .pricing { padding: 110px 0; background: var(--dark); position: relative; overflow: hidden; }
+    .pricing-orb { position: absolute; top: -120px; right: -120px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,229,212,.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+    .pricing-orb2 { position: absolute; bottom: -100px; left: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,200,150,.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+    .price-card { max-width: 500px; margin: 56px auto 0; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-lg); padding: 52px 48px; text-align: center; position: relative; z-index: 1; backdrop-filter: blur(8px); }
+    .price-card::before { content: ''; position: absolute; inset: -1px; border-radius: calc(var(--radius-lg) + 1px); background: linear-gradient(135deg, rgba(0,200,150,.3), rgba(0,229,212,.15), transparent 60%); z-index: -1; }
+    .price-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,200,150,.12); border: 1px solid rgba(0,200,150,.28); border-radius: 100px; padding: 5px 14px; font-size: 11.5px; font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 28px; }
+    .price-trial-label { font-size: 14px; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+    .price-trial-value { font-family: var(--display); font-size: 34px; font-weight: 800; color: var(--cyan); margin-bottom: 6px; }
+    .price-then { font-size: 13px; color: rgba(255,255,255,.35); margin-bottom: 20px; }
+    .price-amount { font-family: var(--display); font-size: 72px; font-weight: 800; color: var(--white); line-height: 1; letter-spacing: -2px; }
+    .price-amount sup { font-size: 24px; vertical-align: super; font-weight: 600; color: rgba(255,255,255,.55); margin-right: 2px; }
+    .price-amount sub { font-size: 18px; font-weight: 500; color: rgba(255,255,255,.4); }
+    .price-note { font-size: 13px; color: rgba(255,255,255,.35); margin-top: 8px; margin-bottom: 36px; }
+    .price-features { text-align: left; display: flex; flex-direction: column; gap: 13px; margin-bottom: 36px; }
+    .pf-item { display: flex; align-items: center; gap: 11px; font-size: 15px; color: rgba(255,255,255,.75); }
+    .pf-check { color: var(--green); font-size: 17px; flex-shrink: 0; }
+    .price-cta { width: 100%; padding: 16px; font-size: 16px; }
+    .price-store { margin-top: 18px; font-size: 12.5px; color: rgba(255,255,255,.3); }
+
+    /* ══ TESTIMONIALS ══ */
+    .testi { padding: 110px 0; background: var(--light-bg); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 56px; }
+    .testi-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--border); }
+    .stars { color: #F59E0B; font-size: 15px; letter-spacing: 2px; margin-bottom: 16px; }
+    .testi-text { font-size: 15px; color: var(--text); line-height: 1.72; margin-bottom: 22px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 11px; }
+    .testi-av { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--cyan)); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 15px; color: #080D13; flex-shrink: 0; }
+    .testi-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .testi-store { font-size: 12px; color: var(--text-muted); }
+
+    /* ══ FAQ ══ */
+    .faq { padding: 110px 0; background: var(--white); }
+    .faq-wrap { max-width: 740px; margin: 56px auto 0; display: flex; flex-direction: column; gap: 10px; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .2s; }
+    .faq-item.open { border-color: rgba(0,200,150,.28); }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 19px 22px; cursor: pointer; font-size: 15.5px; font-weight: 600; color: var(--text); background: var(--white); gap: 16px; transition: background .2s; }
+    .faq-q:hover { background: var(--light-bg); }
+    .faq-plus { font-size: 22px; color: var(--green); flex-shrink: 0; transition: transform .3s; line-height: 1; }
+    .faq-item.open .faq-plus { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .38s ease, padding .3s; padding: 0 22px; font-size: 14.5px; color: var(--text-muted); line-height: 1.72; }
+    .faq-item.open .faq-a { max-height: 220px; padding: 0 22px 20px; }
+
+    /* ══ CTA FINAL ══ */
+    .cta-end { padding: 110px 0; background: var(--dark); text-align: center; position: relative; overflow: hidden; }
+    .cta-end-orb { position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 700px; height: 420px; background: radial-gradient(ellipse, rgba(0,200,150,.16) 0%, transparent 70%); pointer-events: none; }
+    .cta-end-inner { position: relative; z-index: 1; }
+    .cta-end h2 { font-family: var(--display); font-size: clamp(34px, 4.5vw, 56px); font-weight: 800; color: var(--white); line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; }
+    .cta-end p { font-size: 18px; color: rgba(255,255,255,.5); margin-bottom: 42px; }
+    .cta-end-note { margin-top: 22px; font-size: 13px; color: rgba(255,255,255,.28); }
+
+    /* ══ FOOTER ══ */
+    .footer { background: var(--dark2); border-top: 1px solid var(--border-dark); padding: 64px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 52px; margin-bottom: 52px; }
+    .footer-logo { margin-bottom: 14px; }
+    .footer-desc { font-size: 14px; color: rgba(255,255,255,.38); line-height: 1.7; max-width: 280px; }
+    .footer-col h5 { font-family: var(--display); font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; }
+    .footer-col ul { display: flex; flex-direction: column; gap: 9px; }
+    .footer-col ul li a { font-size: 14px; color: rgba(255,255,255,.38); transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--cyan); }
+    .footer-bottom { border-top: 1px solid var(--border-dark); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,.28); }
+    .built-note { font-size: 12px; color: rgba(255,255,255,.28); display: flex; align-items: center; gap: 6px; }
+    .built-note strong { color: rgba(255,255,255,.45); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 920px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .prob-grid { grid-template-columns: 1fr; }
+      .how-wrap { grid-template-columns: 1fr; }
+      .how-wrap::after { display: none; }
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 580px) {
+      .feat-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; }
+      .price-card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()">✕</button>
+  <a href="#como-funciona" onclick="closeMob()" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
+  <a href="#features" onclick="closeMob()" data-es="Funcionalidades" data-en="Features">Funcionalidades</a>
+  <a href="#precios" onclick="closeMob()" data-es="Precio" data-en="Pricing">Precio</a>
+  <a href="#faq" onclick="closeMob()">FAQ</a>
+  <a href="https://apps.shopify.com/shopifac" class="btn btn-glow" data-es="🚀 Instalar gratis" data-en="🚀 Install free">🚀 Instalar gratis</a>
+</div>
+
+<!-- NAVBAR -->
+<header class="nav" id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="shopifac-icon.png" alt="Shopifac" width="34" height="34" />
+        <span class="nav-logo-name">Shopif<em>ac</em></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#como-funciona" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
+        <a href="#features" data-es="Funcionalidades" data-en="Features">Funcionalidades</a>
+        <a href="#precios" data-es="Precio" data-en="Pricing">Precio</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-right">
+        <div class="lang-pill">
+          <button class="lang-btn on" onclick="setLang('es')">ES</button>
+          <button class="lang-btn" onclick="setLang('en')">EN</button>
+        </div>
+        <a href="https://apps.shopify.com/shopifac" class="btn btn-glow nav-cta" data-es="Instalar gratis" data-en="Install free">Instalar gratis</a>
+        <div class="hamburger" onclick="openMob()"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg">
+    <div class="hero-orb1"></div>
+    <div class="hero-orb2"></div>
+    <div class="hero-grid-line"></div>
+  </div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="reveal">
+        <div class="hero-badge"><span class="hero-badge-dot"></span><span data-es="Disponible en Shopify App Store" data-en="Available on Shopify App Store">Disponible en Shopify App Store</span></div>
+        <h1 data-es="Facturá <span class='grad-text'>automático.</span><br>Vendé sin límites." data-en="Invoice <span class='grad-text'>automatically.</span><br>Sell without limits.">Facturá <span class="grad-text">automático.</span><br>Vendé sin límites.</h1>
+        <p class="hero-sub" data-es="Conectá tu tienda Shopify con Facturante y generá facturas electrónicas en segundos. Sin trabajo manual, sin errores." data-en="Connect your Shopify store with Facturante and generate electronic invoices in seconds. No manual work, no errors.">Conectá tu tienda Shopify con Facturante y generá facturas electrónicas en segundos. Sin trabajo manual, sin errores.</p>
+        <div class="hero-actions">
+          <a href="https://apps.shopify.com/shopifac" class="btn btn-glow" data-es="🚀 Probar gratis 7 días" data-en="🚀 Try free for 7 days">🚀 Probar gratis 7 días</a>
+          <a href="#como-funciona" class="btn btn-ghost" data-es="Ver cómo funciona" data-en="See how it works">Ver cómo funciona</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-i"><svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span data-es="7 días gratis" data-en="7 days free">7 días gratis</span></div>
+          <div class="trust-i"><svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span data-es="Sin tarjeta requerida" data-en="No card required">Sin tarjeta requerida</span></div>
+          <div class="trust-i"><svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span data-es="Cancelá cuando quieras" data-en="Cancel anytime">Cancelá cuando quieras</span></div>
+        </div>
+      </div>
+      <div class="hero-visual reveal reveal-d2">
+        <div class="flow-card">
+          <div class="flow-label" data-es="Flujo de integración en tiempo real" data-en="Real-time integration flow">Flujo de integración en tiempo real</div>
+          <div class="flow-row">
+            <div class="flow-ico ico-s">🛒</div>
+            <div class="flow-info"><div class="flow-name">Shopify</div><div class="flow-desc" data-es="Venta aprobada" data-en="Sale approved">Venta aprobada</div></div>
+            <div class="flow-dot"><span class="dot-xs"></span><span data-es="Activo" data-en="Active">Activo</span></div>
+          </div>
+          <div class="flow-arr">↓</div>
+          <div class="flow-row">
+            <div class="flow-ico ico-f"><img src="shopifac-icon.png" alt="Shopifac" width="22" height="22" style="object-fit:contain" /></div>
+            <div class="flow-info"><div class="flow-name">Shopifac</div><div class="flow-desc" data-es="Procesando datos" data-en="Processing data">Procesando datos</div></div>
+            <div class="flow-dot"><span class="dot-xs"></span><span data-es="Procesando" data-en="Processing">Procesando</span></div>
+          </div>
+          <div class="flow-arr">↓</div>
+          <div class="flow-row">
+            <div class="flow-ico ico-fa">📄</div>
+            <div class="flow-info"><div class="flow-name">Facturante</div><div class="flow-desc" data-es="Factura emitida en Facturante" data-en="Invoice issued in Facturante">Factura emitida en Facturante</div></div>
+            <div class="flow-dot"><span class="dot-xs"></span><span data-es="Listo ✓" data-en="Done ✓">Listo ✓</span></div>
+          </div>
+          <div class="invoice-mini">
+            <div class="inv-row"><span class="inv-lbl" data-es="Tipo" data-en="Type">Tipo</span><span class="inv-val">Factura B</span></div>
+            <div class="inv-row"><span class="inv-lbl" data-es="Comprobante" data-en="Receipt">Comprobante</span><span class="inv-val">0001-00004821</span></div>
+            <div class="inv-row"><span class="inv-lbl" data-es="Estado" data-en="Status">Estado</span><span class="inv-badge" data-es="Emitida ✓" data-en="Issued ✓">Emitida ✓</span></div>
+            <div class="inv-row"><span class="inv-lbl" data-es="Tiempo" data-en="Time">Tiempo</span><span class="inv-val g">2.3 seg</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM / SOLUTION -->
+<section class="problem" id="problema">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow" data-es="El problema" data-en="The problem">El problema</span>
+      <h2 class="section-h" data-es="Facturar a mano te roba tiempo<br>todos los días" data-en="Manual invoicing steals your time<br>every single day">Facturar a mano te roba tiempo<br>todos los días</h2>
+    </div>
+    <div class="prob-grid reveal">
+      <div class="prob-card bad">
+        <div class="prob-head"><span class="prob-emoji">😰</span><h3 class="prob-title" data-es="Sin Shopifac" data-en="Without Shopifac">Sin Shopifac</h3></div>
+        <ul class="prob-list">
+          <li class="prob-item"><span class="prob-ic">❌</span><span class="prob-txt" data-es="Entrás manualmente a Facturante por cada venta" data-en="Manually entering Facturante for every sale">Entrás manualmente a Facturante por cada venta</span></li>
+          <li class="prob-item"><span class="prob-ic">❌</span><span class="prob-txt" data-es="Copiás y pegás datos del comprador uno por uno" data-en="Copy-pasting buyer data one by one">Copiás y pegás datos del comprador uno por uno</span></li>
+          <li class="prob-item"><span class="prob-ic">❌</span><span class="prob-txt" data-es="Errores de tipeo en los datos de facturación" data-en="Typing errors in billing data">Errores de tipeo en los datos de facturación</span></li>
+          <li class="prob-item"><span class="prob-ic">❌</span><span class="prob-txt" data-es="5-10 minutos por factura en días de pico" data-en="5-10 minutes per invoice on peak days">5-10 minutos por factura en días de pico</span></li>
+          <li class="prob-item"><span class="prob-ic">❌</span><span class="prob-txt" data-es="Imposible escalar sin contratar más personal" data-en="Can't scale without hiring more staff">Imposible escalar sin contratar más personal</span></li>
+        </ul>
+      </div>
+      <div class="prob-card good">
+        <div class="prob-head"><span class="prob-emoji">🚀</span><h3 class="prob-title" data-es="Con Shopifac" data-en="With Shopifac">Con Shopifac</h3></div>
+        <ul class="prob-list">
+          <li class="prob-item"><span class="prob-ic">✅</span><span class="prob-txt" data-es="Cada venta genera su factura automáticamente" data-en="Every sale generates its invoice automatically">Cada venta genera su factura automáticamente</span></li>
+          <li class="prob-item"><span class="prob-ic">✅</span><span class="prob-txt" data-es="Datos del cliente sincronizados directo de Shopify" data-en="Customer data synced directly from Shopify">Datos del cliente sincronizados directo de Shopify</span></li>
+          <li class="prob-item"><span class="prob-ic">✅</span><span class="prob-txt" data-es="Sin errores: la info sale de la orden original" data-en="No errors: data comes from the original order">Sin errores: la info sale de la orden original</span></li>
+          <li class="prob-item"><span class="prob-ic">✅</span><span class="prob-txt" data-es="Factura lista en menos de 3 segundos" data-en="Invoice ready in under 3 seconds">Factura lista en menos de 3 segundos</span></li>
+          <li class="prob-item"><span class="prob-ic">✅</span><span class="prob-txt" data-es="Escalá tus ventas sin límites de facturación" data-en="Scale your sales with no invoicing limits">Escalá tus ventas sin límites de facturación</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="como-funciona">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <span class="eyebrow" data-es="Así de simple" data-en="That simple">Así de simple</span>
+      <h2 class="section-h" data-es="Configuralo en 3 pasos,<br>facturá para siempre" data-en="Set it up in 3 steps,<br>invoice forever">Configuralo en 3 pasos,<br>facturá para siempre</h2>
+      <p class="section-sub" style="max-width:520px;margin:14px auto 0" data-es="Sin tecnicismos. Todo desde el admin de tu tienda Shopify." data-en="No technical jargon. Everything from your Shopify store admin.">Sin tecnicismos. Todo desde el admin de tu tienda Shopify.</p>
+    </div>
+    <div class="how-wrap reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 class="step-title" data-es="Instalá la app" data-en="Install the app">Instalá la app</h3>
+        <p class="step-desc" data-es="Buscá Shopifac en el Shopify App Store e instalala con un clic. Sin código, sin configuraciones técnicas." data-en="Find Shopifac on the Shopify App Store and install it with one click. No code, no technical setup.">Buscá Shopifac en el Shopify App Store e instalala con un clic. Sin código, sin configuraciones técnicas.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 class="step-title" data-es="Conectá Facturante" data-en="Connect Facturante">Conectá Facturante</h3>
+        <p class="step-desc" data-es="Ingresá tus credenciales de Facturante desde el panel integrado en Shopify. La conexión es automática y segura." data-en="Enter your Facturante credentials from the panel integrated in Shopify. The connection is automatic and secure.">Ingresá tus credenciales de Facturante desde el panel integrado en Shopify. Para usar Shopifac necesitás contratar el acceso a la API de Facturante.</p>
+        <a href="https://web.facturante.com/grandes-empresas" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;font-weight:600;color:var(--green)" data-es="→ Contratar API de Facturante" data-en="→ Get Facturante API">→ Contratar API de Facturante</a>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 class="step-title" data-es="¡Listo, a vender!" data-en="Done, start selling!">¡Listo, a vender!</h3>
+        <p class="step-desc" data-es="Cada nueva venta genera su factura en Facturante automáticamente. Tu cliente la recibe por email y vos no hacés nada." data-en="Every new sale generates its Facturante invoice automatically. Your customer gets it by email and you do nothing.">Cada nueva venta genera su factura en Facturante automáticamente. Tu cliente la recibe por email y vos no hacés nada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow" data-es="Funcionalidades" data-en="Features">Funcionalidades</span>
+      <h2 class="section-h" data-es="Todo lo que necesitás<br>para facturar sin esfuerzo" data-en="Everything you need<br>to invoice effortlessly">Todo lo que necesitás<br>para facturar sin esfuerzo</h2>
+    </div>
+    <div class="feat-grid reveal">
+      <div class="feat-card"><div class="feat-ico">⚡</div><h3 class="feat-title" data-es="Facturación instantánea" data-en="Instant invoicing">Facturación instantánea</h3><p class="feat-desc" data-es="Cada orden aprobada en Shopify dispara la generación automática. Sin demoras ni intervención manual." data-en="Every approved Shopify order triggers automatic generation. No delays or manual intervention.">Cada orden aprobada en Shopify dispara la generación automática. Sin demoras ni intervención manual.</p></div>
+      <div class="feat-card"><div class="feat-ico">🔗</div><h3 class="feat-title" data-es="Integrado en Shopify" data-en="Built into Shopify">Integrado en Shopify</h3><p class="feat-desc" data-es="El panel vive dentro del admin de tu tienda. Sin apps externas ni ventanas adicionales." data-en="The panel lives inside your store admin. No external apps or extra windows.">El panel vive dentro del admin de tu tienda. Sin apps externas ni ventanas adicionales.</p></div>
+      <div class="feat-card"><div class="feat-ico">📋</div><h3 class="feat-title" data-es="Factura A y B automática" data-en="Automatic A & B invoices">Factura A y B automática</h3><p class="feat-desc" data-es="Detecta el tipo de comprador y emite la factura correcta: A para responsables inscriptos, B para consumidores." data-en="Detects buyer type and issues the correct invoice: A for registered taxpayers, B for consumers.">Detecta el tipo de comprador y emite la factura correcta: A para responsables inscriptos, B para consumidores.</p></div>
+      <div class="feat-card"><div class="feat-ico">📧</div><h3 class="feat-title" data-es="Email al cliente con PDF" data-en="Email to customer with PDF">Email al cliente con PDF</h3><p class="feat-desc" data-es="Tu cliente recibe la factura PDF por email al instante. Cero fricción post-venta." data-en="Your customer receives the PDF invoice by email instantly. Zero post-sale friction.">Tu cliente recibe la factura PDF por email al instante. Cero fricción post-venta.</p></div>
+      <div class="feat-card"><div class="feat-ico">🛡️</div><h3 class="feat-title" data-es="Facturación 100% conforme" data-en="100% compliant invoicing">Facturación 100% conforme</h3><p class="feat-desc" data-es="Todas las facturas se emiten directamente en Facturante. Datos completos, sin inconsistencias, siempre al día." data-en="All invoices are issued directly in Facturante. Complete data, no inconsistencies, always up to date.">Todas las facturas se emiten directamente en Facturante. Datos completos, sin inconsistencias, siempre al día.</p></div>
+      <div class="feat-card"><div class="feat-ico">📊</div><h3 class="feat-title" data-es="Historial de facturas" data-en="Invoice history">Historial de facturas</h3><p class="feat-desc" data-es="Consultá el historial completo desde tu admin de Shopify. Filtrá por fecha, estado o monto fácilmente." data-en="View the complete history from your Shopify admin. Filter by date, status, or amount easily.">Consultá el historial completo desde tu admin de Shopify. Filtrá por fecha, estado o monto fácilmente.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precios">
+  <div class="pricing-orb"></div>
+  <div class="pricing-orb2"></div>
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <span class="eyebrow" data-es="Precio" data-en="Pricing">Precio</span>
+      <h2 class="section-h light" data-es="Simple y sin sorpresas" data-en="Simple and no surprises">Simple y sin sorpresas</h2>
+      <p class="section-sub light" style="max-width:460px;margin:14px auto 0" data-es="Un solo plan con todo incluido. Sin límites de facturas, sin costos ocultos." data-en="One plan with everything included. No invoice limits, no hidden costs.">Un solo plan con todo incluido. Sin límites de facturas, sin costos ocultos.</p>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-badge">⭐ <span data-es="Plan único · Todo incluido" data-en="Single plan · All included">Plan único · Todo incluido</span></div>
+      <p class="price-trial-label" data-es="Empezá con" data-en="Start with">Empezá con</p>
+      <p class="price-trial-value" data-es="7 días gratis" data-en="7 days free">7 días gratis</p>
+      <p class="price-then" data-es="luego solo" data-en="then just">luego solo</p>
+      <div class="price-amount"><sup>$</sup>35<sub data-es="/mes" data-en="/mo">/mes</sub></div>
+      <p class="price-note" data-es="USD · Facturado mensualmente · Cancelá cuando quieras" data-en="USD · Billed monthly · Cancel anytime">USD · Facturado mensualmente · Cancelá cuando quieras</p>
+      <ul class="price-features">
+        <li class="pf-item"><span class="pf-check">✓</span><span data-es="Facturas ilimitadas" data-en="Unlimited invoices">Facturas ilimitadas</span></li>
+        <li class="pf-item"><span class="pf-check">✓</span><span data-es="Factura A y B automática" data-en="Automatic A and B invoices">Factura A y B automática</span></li>
+        <li class="pf-item"><span class="pf-check">✓</span><span data-es="Email automático al cliente con PDF" data-en="Automatic email to customer with PDF">Email automático al cliente con PDF</span></li>
+        <li class="pf-item"><span class="pf-check">✓</span><span data-es="Historial completo de facturas" data-en="Complete invoice history">Historial completo de facturas</span></li>
+        <li class="pf-item"><span class="pf-check">✓</span><span data-es="100% integrado en el admin de Shopify" data-en="100% integrated in Shopify admin">100% integrado en el admin de Shopify</span></li>
+        <li class="pf-item"><span class="pf-check">✓</span><span data-es="Soporte por email" data-en="Email support">Soporte por email</span></li>
+      </ul>
+      <a href="https://apps.shopify.com/shopifac" class="btn btn-glow price-cta" data-es="🚀 Empezar prueba gratis" data-en="🚀 Start free trial">🚀 Empezar prueba gratis</a>
+      <p class="price-store" data-es="Disponible exclusivamente en el Shopify App Store" data-en="Available exclusively on the Shopify App Store">Disponible exclusivamente en el Shopify App Store</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi" id="testimonios">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <span class="eyebrow" data-es="Lo que dicen nuestros clientes" data-en="What our customers say">Lo que dicen nuestros clientes</span>
+      <h2 class="section-h" data-es="Dueños de tienda que ya<br>facturan sin esfuerzo" data-en="Store owners who already<br>invoice effortlessly">Dueños de tienda que ya<br>facturan sin esfuerzo</h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text" data-es='"Antes perdía casi una hora por día facturando manualmente. Con Shopifac es completamente automático. No puedo creer que haya tardado tanto en instalarlo."' data-en='"I used to spend almost an hour a day invoicing manually. With Shopifac it\'s completely automatic. I can\'t believe it took me so long to install it."'>"Antes perdía casi una hora por día facturando manualmente. Con Shopifac es completamente automático. No puedo creer que haya tardado tanto en instalarlo."</p>
+        <div class="testi-author"><div class="testi-av">ML</div><div><p class="testi-name">María Laura S.</p><p class="testi-store" data-es="Tienda de ropa · Buenos Aires" data-en="Clothing store · Buenos Aires">Tienda de ropa · Buenos Aires</p></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text" data-es='"La configuración tardó menos de 10 minutos. Conecté mis credenciales y desde el primer día todas las órdenes se facturaron solas. Increíble."' data-en='"Setup took less than 10 minutes. I connected my credentials and from day one all orders were automatically invoiced. Incredible."'>"La configuración tardó menos de 10 minutos. Conecté mis credenciales y desde el primer día todas las órdenes se facturaron solas. Increíble."</p>
+        <div class="testi-author"><div class="testi-av">RG</div><div><p class="testi-name">Roberto G.</p><p class="testi-store" data-es="Electrónica · Córdoba" data-en="Electronics · Córdoba">Electrónica · Córdoba</p></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text" data-es='"Tengo más de 200 ventas por mes. Antes era un caos. Ahora todas las facturas se generan solas y mis clientes las reciben al instante. Vale cada peso."' data-en='"I have over 200 sales per month. It used to be chaos. Now all invoices are generated automatically and my customers receive them instantly. Worth every cent."'>"Tengo más de 200 ventas por mes. Antes era un caos. Ahora todas las facturas se generan solas y mis clientes las reciben al instante. Vale cada peso."</p>
+        <div class="testi-author"><div class="testi-av">AP</div><div><p class="testi-name">Ana P.</p><p class="testi-store" data-es="Cosméticos · Rosario" data-en="Cosmetics · Rosario">Cosméticos · Rosario</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-h" data-es="Preguntas frecuentes" data-en="Frequently asked questions">Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-wrap reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Necesito saber programar para usar Shopifac?" data-en="Do I need to know how to code to use Shopifac?">¿Necesito saber programar para usar Shopifac?</span><span class="faq-plus">+</span></div>
+        <div class="faq-a" data-es="No, para nada. Shopifac está diseñado para dueños de tienda sin perfil técnico. La instalación es con un clic desde el App Store y la configuración tarda menos de 10 minutos." data-en="Not at all. Shopifac is designed for non-technical store owners. Installation is one click from the App Store and setup takes less than 10 minutes.">No, para nada. Shopifac está diseñado para dueños de tienda sin perfil técnico. La instalación es con un clic desde el App Store y la configuración tarda menos de 10 minutos.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Necesito tener una cuenta en Facturante?" data-en="Do I need a Facturante account?">¿Necesito tener una cuenta en Facturante?</span><span class="faq-plus">+</span></div>
+        <div class="faq-a" data-es="Sí, Shopifac es un conector. Necesitás una cuenta activa en Facturante y tener contratado el acceso a la API. Podés hacerlo en <a href="https://web.facturante.com/grandes-empresas" target="_blank" rel="noopener" style="color:var(--green);font-weight:600">web.facturante.com/grandes-empresas</a>. Shopifac usa esas credenciales para emitir las facturas en tu nombre." data-en="Yes, Shopifac is a connector. You need an active Facturante account with your CUIT configured. Shopifac uses those credentials to issue invoices on your behalf.">Sí, Shopifac es un conector. Necesitás una cuenta activa en Facturante y tener contratado el acceso a la API. Podés hacerlo en <a href="https://web.facturante.com/grandes-empresas" target="_blank" rel="noopener" style="color:var(--green);font-weight:600">web.facturante.com/grandes-empresas</a>. Shopifac usa esas credenciales para emitir las facturas en tu nombre.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Tiene límite de facturas por mes?" data-en="Is there a monthly invoice limit?">¿Tiene límite de facturas por mes?</span><span class="faq-plus">+</span></div>
+        <div class="faq-a" data-es="No. El plan de $35 USD/mes incluye facturas ilimitadas. Podés tener 10 ventas o 10.000 ventas al mes: el costo es siempre el mismo." data-en="No. The $35 USD/month plan includes unlimited invoices. You can have 10 sales or 10,000 sales per month: the cost is always the same.">No. El plan de $35 USD/mes incluye facturas ilimitadas. Podés tener 10 ventas o 10.000 ventas al mes: el costo es siempre el mismo.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Qué pasa si cancelo la suscripción?" data-en="What happens if I cancel my subscription?">¿Qué pasa si cancelo la suscripción?</span><span class="faq-plus">+</span></div>
+        <div class="faq-a" data-es="Podés cancelar cuando quieras desde el admin de Shopify. Las facturas ya emitidas quedan guardadas en Facturante. Sin penalidades ni cargos extra." data-en="You can cancel anytime from the Shopify admin. Already issued invoices remain saved in Facturante. No penalties or extra charges.">Podés cancelar cuando quieras desde el admin de Shopify. Las facturas ya emitidas quedan guardadas en Facturante. Sin penalidades ni cargos extra.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Funciona con todos los planes de Shopify?" data-en="Does it work with all Shopify plans?">¿Funciona con todos los planes de Shopify?</span><span class="faq-plus">+</span></div>
+        <div class="faq-a" data-es="Sí, es compatible con todos los planes: Basic, Shopify, Advanced y Plus. También funciona con tiendas en período de prueba." data-en="Yes, it's compatible with all plans: Basic, Shopify, Advanced and Plus. It also works with stores in trial period.">Sí, es compatible con todos los planes: Basic, Shopify, Advanced y Plus. También funciona con tiendas en período de prueba.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Las facturas que genera Shopifac son válidas?" data-en="Are the invoices generated by Shopifac valid?">¿Las facturas que genera Shopifac son válidas?</span><span class="faq-plus">+</span></div>
+        <div class="faq-a" data-es="Sí. Las facturas se emiten directamente en Facturante, una plataforma de facturación electrónica homologada. Para usar Shopifac necesitás contratar el acceso a la API en <a href="https://web.facturante.com/grandes-empresas" target="_blank" rel="noopener" style="color:var(--green);font-weight:600">web.facturante.com/grandes-empresas</a>" data-en="Yes. Invoices are issued directly in Facturante, a certified electronic invoicing platform. To use Shopifac you need to contract API access at web.facturante.com/grandes-empresas">Sí. Las facturas se emiten directamente en Facturante, una plataforma de facturación electrónica homologada. Para usar Shopifac necesitás contratar el acceso a la API en <a href="https://web.facturante.com/grandes-empresas" target="_blank" rel="noopener" style="color:var(--green);font-weight:600">web.facturante.com/grandes-empresas</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-end">
+  <div class="cta-end-orb"></div>
+  <div class="container">
+    <div class="cta-end-inner reveal">
+      <span class="eyebrow" data-es="Empezá hoy" data-en="Start today">Empezá hoy</span>
+      <h2 data-es="Tu próxima venta ya tiene<br>su <span class='grad-text'>factura lista.</span>" data-en="Your next sale already<br>has its <span class='grad-text'>invoice ready.</span>">Tu próxima venta ya tiene<br>su <span class="grad-text">factura lista.</span></h2>
+      <p data-es="7 días gratis. Sin tarjeta de crédito. Cancelá cuando quieras." data-en="7 days free. No credit card. Cancel anytime.">7 días gratis. Sin tarjeta de crédito. Cancelá cuando quieras.</p>
+      <a href="https://apps.shopify.com/shopifac" class="btn btn-glow" style="font-size:17px;padding:18px 40px" data-es="🚀 Instalar Shopifac gratis" data-en="🚀 Install Shopifac free">🚀 Instalar Shopifac gratis</a>
+      <p class="cta-end-note" data-es="Disponible exclusivamente en el Shopify App Store · Construido siguiendo los estándares de Shopify" data-en="Available exclusively on the Shopify App Store · Built following Shopify standards">Disponible exclusivamente en el Shopify App Store · Construido siguiendo los estándares de Shopify</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo nav-logo">
+          <img src="shopifac-icon.png" alt="Shopifac" width="30" height="30" loading="lazy" />
+          <span class="nav-logo-name">Shopif<em>ac</em></span>
+        </div>
+        <p class="footer-desc" data-es="Conectamos tu tienda Shopify con Facturante para que nunca más tengas que emitir una factura a mano en Facturante." data-en="We connect your Shopify store with Facturante so you never have to issue an invoice manually in Facturante again.">Conectamos tu tienda Shopify con Facturante para que nunca más tengas que emitir una factura a mano en Facturante.</p>
+      </div>
+      <div class="footer-col">
+        <h5 data-es="Producto" data-en="Product">Producto</h5>
+        <ul>
+          <li><a href="#como-funciona" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a></li>
+          <li><a href="#features" data-es="Funcionalidades" data-en="Features">Funcionalidades</a></li>
+          <li><a href="#precios" data-es="Precio" data-en="Pricing">Precio</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://apps.shopify.com/shopifac" data-es="Ver en App Store" data-en="View on App Store">Ver en App Store</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5 data-es="Legal" data-en="Legal">Legal</h5>
+        <ul>
+          <li><a href="/privacidad" data-es="Política de privacidad" data-en="Privacy policy">Política de privacidad</a></li>
+          <li><a href="/terminos" data-es="Términos de servicio" data-en="Terms of service">Términos de servicio</a></li>
+          <li><a href="/contacto" data-es="Contacto" data-en="Contact">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Ecomrocket LLC. <span data-es="Todos los derechos reservados." data-en="All rights reserved.">Todos los derechos reservados.</span></p>
+      <div class="built-note"><span data-es="Construido para" data-en="Built for">Construido para</span> <strong>Shopify</strong> · <span data-es="Integra con" data-en="Integrates with">Integra con</span> <strong>Facturante</strong></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 50));
+
+  // Mobile menu
+  function openMob(){ document.getElementById('mobMenu').classList.add('open'); }
+  function closeMob(){ document.getElementById('mobMenu').classList.remove('open'); }
+
+  // FAQ
+  function toggleFaq(el){
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  }
+
+  // Language
+  function setLang(lang){
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('on'));
+    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('on');
+    document.querySelectorAll('[data-es]').forEach(el => {
+      const t = el.getAttribute('data-' + lang);
+      if(!t) return;
+      if(t.includes('<')) el.innerHTML = t;
+      else el.textContent = t;
+    });
+    document.documentElement.lang = lang;
+  }
+
+  // Scroll reveal
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if(e.isIntersecting){
+        setTimeout(() => e.target.classList.add('on'), i * 90);
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+</script>
+</body>
+</html>
