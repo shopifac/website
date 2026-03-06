@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SMYZBYMXQ5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-SMYZBYMXQ5');
+    </script>
+    <!-- Google Search Console -->
+    <meta name="google-site-verification" content="TZVBLOcaFONXa8gLMzPtzHFjqws5IQFZZ00CQ_Yvi4g" />
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "vrgrgpnc63");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guía ARCA: Cómo configurar facturación electrónica en Shopify (2026)</title>
+    <meta name="description"
+        content="Aprendé a configurar el punto de venta en ARCA (ex-AFIP) y conectarlo con tu tienda Shopify usando Facturante y Shopifac. Guía definitiva paso a paso." />
+    <meta name="keywords"
+        content="arca shopify argentina, configurar factura electronica arca, afip arca factura electronica, shopify arca integracion" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://shopifac.com/blog/guia-arca-configurar-facturacion-electronica-shopify" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Guía ARCA: Cómo configurar facturación electrónica en Shopify (2026)" />
+    <meta property="og:description"
+        content="Paso a paso para dejar de facturar a mano y automatizar con ARCA (ex-AFIP) y Shopify." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://shopifac.com/blog/guia-arca-configurar-facturacion-electronica-shopify" />
+    <meta property="og:image" content="https://shopifac.com/og-image.png" />
+    <meta property="article:published_time" content="2026-03-05T00:00:00Z" />
+    <meta property="article:author" content="Shopifac" />
+
+    <!-- Schema.org Article + FAQPage -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Guía ARCA: Cómo configurar facturación electrónica en Shopify (2026)",
+        "description": "Tutorial completo para configurar ARCA (Agencia de Recaudación y Control Aduanero) con Shopify para facturar automáticamente.",
+        "author": { "@type": "Organization", "name": "Shopifac", "url": "https://shopifac.com" },
+        "publisher": { "@type": "Organization", "name": "Ecomrocket LLC", "url": "https://shopifac.com" },
+        "datePublished": "2026-03-05",
+        "dateModified": "2026-03-05",
+        "url": "https://shopifac.com/blog/guia-arca-configurar-facturacion-electronica-shopify",
+        "mainEntityOfPage": "https://shopifac.com/blog/guia-arca-configurar-facturacion-electronica-shopify"
+      }
+    ]
+  }
+  </script>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --dark: #080D13;
+            --dark2: #0F1620;
+            --green: #00C896;
+            --cyan: #00E5D4;
+            --light-bg: #F5F7FA;
+            --white: #FFFFFF;
+            --text: #111827;
+            --text-muted: #4B5563;
+            --border: #E4E7EC;
+            --border-dark: rgba(255, 255, 255, .07);
+            --display: 'Outfit', sans-serif;
+            --body: 'Plus Jakarta Sans', sans-serif;
+            --max: 740px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body);
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.75;
+        }
+
+        a {
+            color: var(--green);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* NAV */
+        .nav {
+            background: var(--dark);
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-dark);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .nav-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .nav-logo-name {
+            font-family: var(--display);
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .nav-logo-name em {
+            font-style: normal;
+            color: var(--cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 13.5px;
+            color: rgba(255, 255, 255, .55);
+            transition: color .2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, var(--green), var(--cyan));
+            color: #080D13 !important;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px !important;
+        }
+
+        /* ARTICLE HEADER */
+        .article-header {
+            background: var(--dark);
+            padding: 64px 0 56px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 229, 212, .1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .article-header .inner {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            font-size: 12.5px;
+            color: rgba(255, 255, 255, .35);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, .35);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        .article-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 200, 150, .1);
+            border: 1px solid rgba(0, 200, 150, .25);
+            border-radius: 100px;
+            padding: 4px 13px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cyan);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .article-title {
+            font-family: var(--display);
+            font-size: clamp(26px, 4vw, 40px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            letter-spacing: -.5px;
+            margin-bottom: 18px;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, .38);
+        }
+
+        .meta-sep {
+            opacity: .3;
+        }
+
+        .reading-time {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* LAYOUT */
+        .article-layout {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 64px 28px 100px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 64px;
+            align-items: start;
+        }
+
+        /* CONTENT */
+        .article-content {
+            min-width: 0;
+        }
+
+        .article-content h2 {
+            font-family: var(--display);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 52px 0 16px;
+            line-height: 1.25;
+        }
+
+        .article-content h3 {
+            font-family: var(--display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 32px 0 12px;
+        }
+
+        .article-content p {
+            font-size: 16px;
+            color: #374151;
+            line-height: 1.85;
+            margin-bottom: 20px;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 0 0 20px 0;
+            padding-left: 0;
+        }
+
+        .article-content ul li,
+        .article-content ol li {
+            font-size: 16px;
+            color: #374151;
+            line-height: 1.8;
+            padding: 5px 0 5px 24px;
+            position: relative;
+        }
+
+        .article-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 13px;
+            top: 7px;
+        }
+
+        .article-content ol {
+            counter-reset: item;
+        }
+
+        .article-content ol li {
+            counter-increment: item;
+        }
+
+        .article-content ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--green), var(--cyan));
+            color: #080D13;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 7px;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .article-content strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .article-content a {
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        /* SPECIAL BLOCKS */
+        .intro-box {
+            background: linear-gradient(135deg, rgba(0, 200, 150, .06), rgba(0, 229, 212, .04));
+            border: 1px solid rgba(0, 200, 150, .2);
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-bottom: 40px;
+            font-size: 16.5px;
+            color: #374151;
+            line-height: 1.8;
+        }
+
+        .intro-box strong {
+            color: var(--text);
+        }
+
+        .step-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px 28px 24px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: border-color .2s;
+        }
+
+        .step-card:hover {
+            border-color: rgba(0, 200, 150, .3);
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--green), var(--cyan));
+            color: #080D13;
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 50%;
+            margin-bottom: 14px;
+        }
+
+        .step-card h3 {
+            font-family: var(--display);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0 0 10px;
+        }
+
+        .step-card p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.75;
+            margin: 0;
+        }
+
+        .step-card .step-tip {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: var(--light-bg);
+            border-radius: 8px;
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        .step-card .step-tip strong {
+            color: var(--green);
+        }
+
+        .highlight-box {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--green);
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 28px 0;
+            font-size: 15px;
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        .highlight-box strong {
+            color: var(--text);
+        }
+
+        .warning-box {
+            background: #FFFBEB;
+            border: 1px solid #FDE68A;
+            border-left: 3px solid #F59E0B;
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 28px 0;
+            font-size: 15px;
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        .faq-section {
+            margin-top: 52px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .faq-q {
+            padding: 18px 20px;
+            font-size: 15.5px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+        }
+
+        .faq-q:hover {
+            background: var(--light-bg);
+        }
+
+        .faq-plus {
+            color: var(--green);
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: transform .3s;
+            line-height: 1;
+        }
+
+        .faq-item.open .faq-plus {
+            transform: rotate(45deg);
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .35s ease, padding .3s;
+            padding: 0 20px;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 300px;
+            padding: 0 20px 18px;
+        }
+
+        .cta-block {
+            background: var(--dark);
+            border-radius: 18px;
+            padding: 40px 36px;
+            text-align: center;
+            margin-top: 56px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-block::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 229, 212, .15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cta-block h3 {
+            font-family: var(--display);
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-block p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--green), var(--cyan));
+            color: #080D13;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all .22s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 200, 150, .4);
+            text-decoration: none;
+        }
+
+        .cta-note {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .25);
+            margin-top: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: sticky;
+            top: 88px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .sidebar-title {
+            font-family: var(--display);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 14px;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .toc-list li a {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            display: block;
+            padding: 3px 0;
+            transition: color .2s;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+        }
+
+        .toc-list li a:hover,
+        .toc-list li a.active {
+            color: var(--green);
+            border-left-color: var(--green);
+            text-decoration: none;
+        }
+
+        .sidebar-cta {
+            background: linear-gradient(135deg, rgba(0, 200, 150, .08), rgba(0, 229, 212, .05));
+            border: 1px solid rgba(0, 200, 150, .22);
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .sidebar-cta p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 14px;
+        }
+
+        .btn-sidebar {
+            display: block;
+            background: linear-gradient(135deg, var(--green), var(--cyan));
+            color: #080D13;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13.5px;
+            text-align: center;
+            transition: all .2s;
+        }
+
+        .btn-sidebar:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0, 200, 150, .35);
+            text-decoration: none;
+        }
+
+        .sidebar-note {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--dark2);
+            border-top: 1px solid var(--border-dark);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .3);
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, .4);
+        }
+
+        @media (max-width: 900px) {
+            .article-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <header class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <img src="/shopifac-icon.png" alt="Shopifac" width="28" height="28" />
+                <span class="nav-logo-name">Shopif<em>ac</em></span>
+            </a>
+            <nav class="nav-links">
+                <a href="/#como-funciona">Cómo funciona</a>
+                <a href="/#precios">Precio</a>
+                <a href="/blog">Blog</a>
+                <a href="https://apps.shopify.com/shopifac" class="btn-nav">Instalar gratis →</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ARTICLE HEADER -->
+    <div class="article-header">
+        <div class="inner">
+            <nav class="breadcrumb" aria-label="breadcrumb">
+                <a href="/">Inicio</a> › <a href="/blog">Blog</a> › <span>Guía ARCA Shopify</span>
+            </nav>
+            <div class="article-tag">📘 Guía ARCA (ex-AFIP)</div>
+            <h1 class="article-title">Guía ARCA: Cómo configurar facturación electrónica en Shopify (2026)</h1>
+            <div class="article-meta">
+                <span>Por <strong style="color:rgba(255,255,255,.6)">Equipo Shopifac</strong></span>
+                <span class="meta-sep">·</span>
+                <span>Marzo 2026</span>
+                <span class="meta-sep">·</span>
+                <span class="reading-time">⏱ 12 min de lectura</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="article-layout">
+
+        <!-- CONTENT -->
+        <article class="article-content">
+
+            <div class="intro-box">
+                Con la transición de AFIP a la nueva <strong>ARCA (Agencia de Recaudación y Control Aduanero)</strong>,
+                muchos dueños de tiendas Shopify se preguntan si el proceso de facturación cambió. La buena noticia es
+                que el sistema técnico sigue siendo compatible, pero es vital tener configurado correctamente el punto
+                de venta para automatizar con Shopifac.
+            </div>
+
+            <h2 id="que-es-arca">¿Qué es ARCA y cómo afecta a tu Shopify?</h2>
+            <p>ARCA es el organismo que reemplaza a la AFIP en Argentina. Para efectos de facturación electrónica, los
+                Web Services (la tecnología que usamos para conectar sistemas) siguen funcionando igual. Sin embargo,
+                para que tu tienda Shopify "hable" con ARCA, necesitás un intermediario homologado como
+                <strong>Facturante</strong>.</p>
+
+            <div class="highlight-box">
+                <strong>Punto clave:</strong> No podés conectar Shopify directamente a ARCA. Necesitás Facturante como
+                plataforma emisora y Shopifac como conector de datos.
+            </div>
+
+            <h2 id="pasos">Pasos para configurar ARCA para automatización</h2>
+
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Crear el Punto de Venta en el portal de ARCA</h3>
+                <p>Ingresá al sitio oficial de ARCA con tu Cuit y Clave Fiscal. Debés dirigirte a "Administración de
+                    puntos de venta y domicilios".</p>
+                <div class="step-tip"><strong>Importante:</strong> El punto de venta debe ser de tipo <strong>"Web
+                        Services"</strong>. Si elegís "Factuweb" o "Comprobantes en línea", la automatización no
+                    funcionará.</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>Delegar el servicio a Facturante</h3>
+                <p>Para que Facturante pueda emitir facturas en tu nombre, debés autorizarlos en el portal de ARCA
+                    mediante la delegación del Web Service de Factura Electrónica.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Vincular con Shopify vía Shopifac</h3>
+                <p>Una vez que tenés el Punto de Venta (ej: Punto 5) activo en ARCA y vinculado a Facturante, solo resta
+                    ingresar ese número en el panel de Shopifac dentro de tu Shopify admin.</p>
+            </div>
+
+            <h2 id="beneficios">Beneficios de automatizar con Shopifac</h2>
+            <p>Al tener todo este flujo configurado, te olvidás de la parte impositiva operativa:</p>
+            <ul>
+                <li><strong>Cumplimiento total:</strong> Emitís facturas legales aprobadas por ARCA en tiempo real.</li>
+                <li><strong>Información precisa:</strong> Shopifac toma los montos, descuentos e impuestos exactos de la
+                    orden de Shopify.</li>
+                <li><strong>Sin errores manuales:</strong> Se terminaron los errores de tipeo de CUITs o nombres de
+                    clientes.</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Atención:</strong> Recordá que si sos Responsable Inscripto, debés cargar el certificado digital
+                en Facturante para que la conexión con el entorno de producción de ARCA sea exitosa.
+            </div>
+
+            <!-- FAQ -->
+            <div class="faq-section">
+                <h2 id="faq">Dudas comunes sobre ARCA</h2>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)"><span>¿Tengo que cambiar algo si ya facturaba con
+                            AFIP?</span><span class="faq-plus">+</span></div>
+                    <div class="faq-a">No es necesario. Si ya tenías tu configuración funcionando con Facturante y
+                        Shopifac, la transición a ARCA es transparente para el sistema de Web Services.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)"><span>¿Puedo usar mi punto de venta actual?</span><span
+                            class="faq-plus">+</span></div>
+                    <div class="faq-a">Solo si es de tipo "Web Services". Si usas el mismo punto de venta con el que
+                        facturás a mano en la web de ARCA, vas a tener conflictos de numeración. Recomendamos crear uno
+                        nuevo exclusivo para Shopify.</div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="cta-block">
+                <h3>¿Listo para automatizar con ARCA?</h3>
+                <p>Instalá Shopifac y conectá tu tienda en minutos. Cumplí con la normativa argentina sin perder tiempo
+                    manual.</p>
+                <a href="https://apps.shopify.com/shopifac" class="btn-cta" target="_blank" rel="noopener">🚀 Probar
+                    Shopifac gratis</a>
+            </div>
+
+        </article>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <div class="sidebar-title">En este artículo</div>
+                <ul class="toc-list">
+                    <li><a href="#que-es-arca">¿Qué es ARCA?</a></li>
+                    <li><a href="#pasos">Configuración paso a paso</a></li>
+                    <li><a href="#beneficios">Beneficios</a></li>
+                    <li><a href="#faq">Preguntas frecuentes</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-cta">
+                <p>Automatizá la facturación de tu tienda Shopify con ARCA y Facturante.</p>
+                <a href="https://apps.shopify.com/shopifac" class="btn-sidebar">🚀 Instalar gratis</a>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Ecomrocket LLC. Todos los derechos reservados.</p>
+        <div style="margin-top:15px">
+            <a href="/" style="color:rgba(255,255,255,.4);margin:0 10px;font-size:13px">Inicio</a>
+            <a href="/blog" style="color:rgba(255,255,255,.4);margin:0 10px;font-size:13px">Blog</a>
+            <a href="/privacidad" style="color:rgba(255,255,255,.4);margin:0 10px;font-size:13px">Privacidad</a>
+            <a href="/terminos" style="color:rgba(255,255,255,.4);margin:0 10px;font-size:13px">Términos</a>
+            <a href="/contacto" style="color:rgba(255,255,255,.4);margin:0 10px;font-size:13px">Contacto</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+        }
+    </script>
+
+</body>
+
+</html>
