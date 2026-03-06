@@ -1380,6 +1380,114 @@
         padding: 36px 24px;
       }
     }
+
+    /* ══ TRUST LOGOS ══ */
+    .trust-logos {
+      padding: 40px 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logos-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 60px;
+      opacity: 0.6;
+      filter: grayscale(1);
+      transition: all 0.3s;
+    }
+
+    .logos-grid:hover {
+      opacity: 1;
+      filter: grayscale(0);
+    }
+
+    .logo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    /* ══ CALCULATOR ══ */
+    .calculator {
+      padding: 110px 0;
+      background: var(--dark);
+      color: white;
+      position: relative;
+    }
+
+    .calc-card {
+      max-width: 800px;
+      margin: 50px auto 0;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .calc-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .calc-slider {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--green);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--green);
+    }
+
+    .calc-results {
+      background: rgba(0, 200, 150, 0.05);
+      border-radius: var(--radius);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .res-val {
+      font-family: var(--display);
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--green);
+      display: block;
+    }
+
+    .res-lbl {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    @media (max-width: 920px) {
+      .calc-card {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -1520,6 +1628,25 @@
     </div>
   </section>
 
+  <!-- TRUST LOGOS -->
+  <section class="trust-logos">
+    <div class="container">
+      <div class="logos-grid reveal">
+        <div class="logo-item">
+          <img src="https://cdn.shopify.com/assets/images/logos/shopify-bag.svg" width="24" height="24" alt="Shopify"
+            loading="lazy">
+          <span>Shopify Partner</span>
+        </div>
+        <div class="logo-item">
+          <span style="color:#0055A4">Facturante</span>
+        </div>
+        <div class="logo-item">
+          <span style="color:#222">ARCA Argentina</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PROBLEM / SOLUTION -->
   <section class="problem" id="problema">
     <div class="container">
@@ -1625,6 +1752,46 @@
             data-en="Every new sale generates its Facturante invoice automatically. Your customer gets it by email and you do nothing.">
             Cada nueva venta genera su factura en Facturante automáticamente. Tu cliente la recibe por email y vos no
             hacés nada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calculator">
+    <div class="container">
+      <div class="reveal" style="text-align:center">
+        <span class="eyebrow" style="color:var(--cyan)" data-es="Rentabilidad"
+          data-en="Profitability">Rentabilidad</span>
+        <h2 class="section-h light" data-es="Calculadora de Ahorro" data-en="Savings Calculator">Calculadora de Ahorro
+        </h2>
+        <p class="section-sub light"
+          data-es="Descubrí cuánto tiempo y dinero estás perdiendo procesando órdenes a mano."
+          data-en="Discover how much time and money you are losing by processing orders manually.">Descubrí cuánto
+          tiempo y dinero estás perdiendo procesando órdenes a mano.</p>
+      </div>
+
+      <div class="calc-card reveal">
+        <div class="calc-input-group">
+          <label style="font-weight: 700;"><span data-es="Ventas por mes" data-en="Sales per month">Ventas por
+              mes</span>: <span id="salesVal" style="color:var(--green)">150</span></label>
+          <input type="range" min="10" max="1000" value="150" class="calc-slider" id="salesInput">
+          <p style="font-size:13px; color:rgba(255,255,255,0.4)"
+            data-es="Calculamos 5 minutos de trabajo manual por cada factura en el portal de ARCA/Facturante."
+            data-en="We estimate 5 minutes of manual work for each invoice in the ARCA/Facturante portal.">Calculamos 5
+            minutos de trabajo manual por cada factura
+            en el portal de ARCA/Facturante.</p>
+        </div>
+        <div class="calc-results">
+          <div>
+            <span class="res-lbl" data-es="Tiempo ahorrado / mes" data-en="Time saved / mo">Tiempo ahorrado / mes</span>
+            <span class="res-val" id="timeRes">12.5h</span>
+          </div>
+          <div style="margin-top:20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top:20px;">
+            <span class="res-lbl" data-es="Ganancia neta estimada (USD)" data-en="Estimated net profit (USD)">Ganancia
+              neta estimada (USD)</span>
+            <span class="res-val" style="color:var(--cyan)" id="moneyRes">$152</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1881,6 +2048,23 @@
               href="https://web.facturante.com/grandes-empresas" target="_blank" rel="noopener"
               style="color:var(--green);font-weight:600">web.facturante.com/grandes-empresas</a></div>
         </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Qué pasó con AFIP? ¿Funciona con ARCA?"
+              data-en="What happened to AFIP? Does it work with ARCA?">¿Qué pasó con AFIP? ¿Funciona con
+              ARCA?</span><span class="faq-plus">+</span></div>
+          <div class="faq-a">Sí, totalmente. Shopifac ya está actualizado para el nuevo ecosistema de
+            <strong>ARCA (Agencia de Recaudación y Control Aduanero)</strong>. La conexión técnica a través de
+            Facturante sigue siendo la misma y es 100% legal y funcional.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)"><span data-es="¿Soporta impuestos locales (IIBB, Percepciones)?"
+              data-en="Does it support local taxes?">¿Soporta impuestos locales?</span><span class="faq-plus">+</span>
+          </div>
+          <div class="faq-a">Sí. Shopifac envía toda la información de la orden a Facturante, y es allí donde se aplican
+            las reglas impositivas argentinas (IVA, Percepciones de IIBB, etc.) según tu configuración fiscal en ARCA.
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1999,6 +2183,26 @@
       });
       document.documentElement.lang = lang;
     }
+
+    // Calculator Logic
+    const salesInput = document.getElementById('salesInput');
+    const salesVal = document.getElementById('salesVal');
+    const timeRes = document.getElementById('timeRes');
+    const moneyRes = document.getElementById('moneyRes');
+
+    function updateCalc() {
+      const sales = parseInt(salesInput.value);
+      salesVal.textContent = sales;
+
+      const hours = (sales * 5) / 60;
+      timeRes.textContent = hours.toFixed(1) + 'h';
+
+      const money = (hours * 15) - 35; // $15/hr labor cost - $35 app cost
+      moneyRes.textContent = '$' + Math.max(0, Math.round(money));
+    }
+
+    salesInput.addEventListener('input', updateCalc);
+    updateCalc();
 
     // Scroll reveal
     const revealObs = new IntersectionObserver((entries) => {
